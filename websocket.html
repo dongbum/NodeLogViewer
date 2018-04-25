@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Example WebSocket</title>
+</head>
+<body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+if ('WebSocket' in window) {
+  //웹소켓 서버는 ws://으로 시작한다.
+  var ws = new WebSocket('ws://127.0.0.1:58080', 'example-echo');
+
+//ws에 websocket이 연결되었을 때 onopen 을
+  ws.onopen = function () {
+    $('#status').text('connected');
+    //서버로 메세지를 보낸다.
+    ws.send('Hello');
+  };
+//메세지를 받았을때 onmessage 를
+  ws.onmessage = function (evt) {
+    //서버에서 받은 메세지를 표시
+    $('#messages').append($('<li>').text('Received message: ' + evt.data));
+  };
+//연결이 끊어졌을 때 onclose 를
+  ws.onclose = function () {
+    $('#status').text('connection is closed');
+  };
+}
+else
+  $('#status').text('WebSocket not supported.');
+</script>
+
+Status: <span id="status"></span><br /><br />
+Messages: <ul id="messages"></ul>
+</body>
+</html>
