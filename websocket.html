@@ -9,7 +9,16 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
 var socket = io();
-socket.emit('start');
+socket.on('connect', function() {
+  $('#status').text('Server connected.');
+
+  socket.emit('start');
+});
+
+socket.on('disconnect', function() {
+  $('#status').text('Server disconnected.');
+});
+
 socket.on('log', function(data) {
   $('#messages').append($('<li>').text('Received message: ' + data));
 });

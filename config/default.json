@@ -1,0 +1,8 @@
+{
+	"server" : {
+		"port" : "58080",
+		"refresh_interval" : "100"
+	},
+	"log" : {
+	}
+}

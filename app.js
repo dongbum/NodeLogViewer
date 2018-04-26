@@ -1,15 +1,19 @@
+var config = require('config'); // https://www.npmjs.com/package/config
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var io = require('socket.io')(http); // https://blog.naver.com/azure0777/220619415390
 var fs = require('fs');
 
+const SERVER_PORT = config.get('server.port');
+const REFRESH_INTERVAL = config.get('server.refresh_interval');
+
 app.get("/", function(req, res) {
-  res.sendfile('websocket.html');
+  res.sendFile(__dirname + '/websocket.html');
 });
 
-http.listen('58080', function() {
-  console.log('http server is listening on port 58080');
+http.listen(SERVER_PORT, function() {
+  console.log('http server is listening on port ' + SERVER_PORT);
 });
 
 // require('events').EventEmitter.prototype._maxListeners = 100;
@@ -31,7 +35,7 @@ io.on('connection', function (socket) {
 
 
 var fileToTail = "test.txt";
-var options = { logger: console, fromBeginning: false, follow: true, useWatchFile: true, fsWatchOptions : { interval: 100 } }
+var options = { logger: console, fromBeginning: false, follow: true, useWatchFile: true, fsWatchOptions : { interval: REFRESH_INTERVAL } }
 // 위 옵션을 100 미만으로 설정하는 경우  tail 기능이 제대로 작동하지 않을 우려가 있다.
 
 Tail = require('tail').Tail;
