@@ -7,6 +7,13 @@ var fs = require('fs');
 
 const SERVER_PORT = config.get('server.port');
 const REFRESH_INTERVAL = config.get('server.refresh_interval');
+const LOG_FILE = config.get('log');
+
+for (var i=0; i<LOG_FILE.length; i++) {
+  console.log("array" + LOG_FILE[i].name + " : " + LOG_FILE[i].file);
+}
+
+require('events').EventEmitter.prototype._maxListeners = 100;
 
 app.get("/", function(req, res) {
   res.sendFile(__dirname + '/websocket.html');
@@ -16,10 +23,12 @@ http.listen(SERVER_PORT, function() {
   console.log('http server is listening on port ' + SERVER_PORT);
 });
 
-// require('events').EventEmitter.prototype._maxListeners = 100;
-
 io.on('connection', function (socket) {
   console.log('user connected');
+
+  socket.on('getlist', function() {
+    io.emit('logfile_list', LOG_FILE);
+  });
 
   socket.on('start', function() {
     tail.on("line", function (data) {

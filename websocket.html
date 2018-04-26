@@ -12,6 +12,7 @@ var socket = io();
 socket.on('connect', function() {
   $('#status').text('Server connected.');
 
+  socket.emit('getlist');
   socket.emit('start');
 });
 
@@ -19,10 +20,21 @@ socket.on('disconnect', function() {
   $('#status').text('Server disconnected.');
 });
 
+socket.on('logfile_list', function(data) {
+  for (var i=0; i<data.length; ++i) {
+      // $('#status').append($('<li>').text('logfile_list: ' + data[i].id + ' : ' + data[i].name + ' : ' + data[i].file));
+      //$('#logfile').append($('<option>').text('logfile_list: ' + data[i].file));
+      $('#logfile').append(new Option(data[i].file, data[i].id));
+  }
+});
+
 socket.on('log', function(data) {
   $('#messages').append($('<li>').text('Received message: ' + data));
 });
 
+function select_log() {
+  alert($('#logfile :selected').text() + ' : ' + $('#logfile :selected').val());
+}
 /*
 if ('WebSocket' in window) {
   //웹소켓 서버는 ws://으로 시작한다.
@@ -49,7 +61,11 @@ else
   */
 </script>
 
-Status: <span id="status"></span><br /><br />
+<form>
+Status: <ul id="status"></ul><br /><br />
+Select: <select id="logfile"></select><input type="button" onclick="select_log()" />
 Messages: <ul id="messages"></ul>
+</form>
+
 </body>
 </html>

@@ -3,6 +3,16 @@
 		"port" : "58080",
 		"refresh_interval" : "100"
 	},
-	"log" : {
-	}
+	"log" : [
+		{
+			"id" : 1,
+			"name" : "first log file",
+			"file" : "D:\\temp\\1.log"
+		},
+		{
+			"id" : 2,
+			"name" : "second log file",
+			"file" : "D:\\temp\\2.log"
+		}
+	]
 }
