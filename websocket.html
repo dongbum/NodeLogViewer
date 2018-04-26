@@ -1,12 +1,20 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <title>Example WebSocket</title>
+  <title>WebSocket Test</title>
 </head>
 <body>
 
+<script src="/socket.io/socket.io.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
+var socket = io();
+socket.emit('start');
+socket.on('log', function(data) {
+  $('#messages').append($('<li>').text('Received message: ' + data));
+});
+
+/*
 if ('WebSocket' in window) {
   //웹소켓 서버는 ws://으로 시작한다.
   var ws = new WebSocket('ws://127.0.0.1:58080', 'example-echo');
@@ -29,6 +37,7 @@ if ('WebSocket' in window) {
 }
 else
   $('#status').text('WebSocket not supported.');
+  */
 </script>
 
 Status: <span id="status"></span><br /><br />
