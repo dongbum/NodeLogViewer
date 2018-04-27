@@ -13,7 +13,6 @@ socket.on('connect', function() {
   $('#status').text('Server connected.');
 
   socket.emit('getlist');
-  socket.emit('start');
 });
 
 socket.on('disconnect', function() {
@@ -34,6 +33,8 @@ socket.on('log', function(data) {
 
 function select_log() {
   alert($('#logfile :selected').text() + ' : ' + $('#logfile :selected').val());
+
+  socket.emit('select', $('#logfile :selected').val());
 }
 /*
 if ('WebSocket' in window) {

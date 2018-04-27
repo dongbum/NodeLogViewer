@@ -26,19 +26,37 @@ http.listen(SERVER_PORT, function() {
 io.on('connection', function (socket) {
   console.log('user connected');
 
+  // 소켓 종료
+  socket.on('disconnect', function () {
+    console.log('disconnected.');
+  });
+
+  // 로그파일 목록 요청
   socket.on('getlist', function() {
     io.emit('logfile_list', LOG_FILE);
   });
 
-  socket.on('start', function() {
+  // 로그파일 선택
+  socket.on('select', function(data) {
+    console.log('select : ' + data);
+
+    var index = data;
+
+    for (var i=0; i<LOG_FILE.length; i++) {
+      if (index == LOG_FILE[i].id) {
+        fileToTail = LOG_FILE[i].file;
+        break;
+      }
+    }
+
+    console.log('fileToTail : ' + fileToTail);
+
+    tail = new Tail(fileToTail, options);
+
     tail.on("line", function (data) {
         console.log(data);
         io.emit('log', data);
     });
-  });
-
-  socket.on('disconnect', function () {
-    console.log('disconnected.');
   });
 });
 
@@ -49,9 +67,9 @@ var options = { logger: console, fromBeginning: false, follow: true, useWatchFil
 
 Tail = require('tail').Tail;
 
+/*
 tail = new Tail(fileToTail, options);
 
-/*
 tail.on("line", function (data) {
     console.log(data);
 });
