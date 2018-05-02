@@ -40,6 +40,12 @@ io.on('connection', function (socket) {
   socket.on('select', function(data) {
     console.log('select : ' + data);
 
+    try {
+      tail.unwatch();
+    } catch (error) {
+
+    }
+
     var index = data;
 
     for (var i=0; i<LOG_FILE.length; i++) {
@@ -57,6 +63,8 @@ io.on('connection', function (socket) {
         console.log(data);
         io.emit('log', data);
     });
+
+    tail.watch();
   });
 });
 
