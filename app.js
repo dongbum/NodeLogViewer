@@ -28,7 +28,13 @@ io.on('connection', function (socket) {
 
   // 소켓 종료
   socket.on('disconnect', function () {
-    console.log('disconnected.');
+    try {
+      tail.unwatch();
+    } catch (e) {
+
+    } finally {
+      console.log('disconnected.');
+    }
   });
 
   // 로그파일 목록 요청
