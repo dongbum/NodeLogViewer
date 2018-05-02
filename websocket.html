@@ -30,13 +30,16 @@
     });
 
     socket.on('log', function(data) {
-      $('#messages').append($('<li>').text('Received message: ' + data));
+      var message = $('<div>' + data + '</div>').addClass('col-md-12');
+
+      $('#messages').append(message);
     });
 
     function select_log(id) {
       alert(id);
 
-      socket.emit('select', $('#logfile :selected').val());
+      // socket.emit('select', $('#logfile :selected').val());
+      socket.emit('select', id);
     }
     /*
     if ('WebSocket' in window) {
@@ -107,7 +110,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" id="messages">
         <div class="col-md-12"></div>
       </div>
     </div>

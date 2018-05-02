@@ -10,7 +10,7 @@ const REFRESH_INTERVAL = config.get('server.refresh_interval');
 const LOG_FILE = config.get('log');
 
 for (var i=0; i<LOG_FILE.length; i++) {
-  console.log("array" + LOG_FILE[i].name + " : " + LOG_FILE[i].file);
+  console.log(LOG_FILE[i].name + " : " + LOG_FILE[i].file);
 }
 
 require('events').EventEmitter.prototype._maxListeners = 100;
@@ -40,6 +40,12 @@ io.on('connection', function (socket) {
   socket.on('select', function(data) {
     console.log('select : ' + data);
 
+    try {
+      tail.unwatch();
+    } catch (error) {
+
+    }
+
     var index = data;
 
     for (var i=0; i<LOG_FILE.length; i++) {
@@ -57,9 +63,10 @@ io.on('connection', function (socket) {
         console.log(data);
         io.emit('log', data);
     });
+
+    tail.watch();
   });
 });
-
 
 var fileToTail = "test.txt";
 var options = { logger: console, fromBeginning: false, follow: true, useWatchFile: true, fsWatchOptions : { interval: REFRESH_INTERVAL } }
