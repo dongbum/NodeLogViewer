@@ -1,140 +1,65 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-
 <head>
   <title>WebSocket Test</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script type="text/javascript">
-    var socket = io();
-    socket.on('connect', function() {
-      $('#status').text('Server connected.');
-
-      socket.emit('getlist');
-    });
-
-    socket.on('disconnect', function() {
-      $('#status').text('Server disconnected.');
-    });
-
-    socket.on('logfile_list', function(data) {
-      for (var i=0; i<data.length; ++i) {
-          var logfiles = $('<a>' + data[i].file + '</a>').attr('href', '#').addClass('dropdown-item').attr('onclick', 'select_log(' + data[i].id + ')');
-
-          $('#logfile').append(logfiles);
-      }
-    });
-
-    socket.on('log', function(data) {
-      var message = $('<li>' + data + '</li>').addClass('list-group-item d-flex justify-content-between align-items-center');
-
-      $('#messages').append(message);
-    });
-
-    function select_log(id) {
-      // alert(id);
-
-      // socket.emit('select', $('#logfile :selected').val());
-      socket.emit('select', id);
-    }
-    /*
-    if ('WebSocket' in window) {
-      //웹소켓 서버는 ws://으로 시작한다.
-      var ws = new WebSocket('ws://127.0.0.1:58080', 'example-echo');
-
-    //ws에 websocket이 연결되었을 때 onopen 을
-      ws.onopen = function () {
-        $('#status').text('connected');
-        //서버로 메세지를 보낸다.
-        ws.send('Hello');
-      };
-    //메세지를 받았을때 onmessage 를
-      ws.onmessage = function (evt) {
-        //서버에서 받은 메세지를 표시
-        $('#messages').append($('<li>').text('Received message: ' + evt.data));
-      };
-    //연결이 끊어졌을 때 onclose 를
-      ws.onclose = function () {
-        $('#status').text('connection is closed');
-      };
-    }
-    else
-      $('#status').text('WebSocket not supported.');
-      */
-  </script>
 </head>
-
 <body>
-  <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <i class="fa d-inline fa-lg fa-cloud"></i>
-        <b> NodeLogViewer</b>
-      </a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="fa d-inline fa-lg fa-bookmark-o"></i> Bookmarks</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="fa d-inline fa-lg fa-envelope-o"></i> Contacts</a>
-          </li>
-        </ul>
-        <a class="btn navbar-btn ml-2 text-white btn-secondary">
-          <i class="fa d-inline fa-lg fa-user-circle-o"></i> Sign in</a>
-      </div>
-    </div>
-  </nav>
-  <div class="py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="btn-group">
-            <button class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"> Log File </button>
-            <div class="dropdown-menu" id="logfile">
-              <!--
-              <a class="dropdown-item" href="#">Action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Separated link</a>
-              -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <ul class="list-group" id="messages">
-            <!--
-            <li class="list-group-item d-flex justify-content-between align-items-center" > Cras justo odio
-              <span class="badge badge-primary badge-pill">14</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center"> Dapibus ac facilisis in
-              <span class="badge badge-primary badge-pill">2</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center"> Morbi leo risus
-              <span class="badge badge-primary badge-pill">1</span>
-            </li>
-            -->
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <pingendo onclick="window.open('https://pingendo.com/', '_blank')" style="cursor:pointer;position: fixed;bottom: 10px;right:10px;padding:4px;background-color: #00b0eb;border-radius: 8px; width:180px;display:flex;flex-direction:row;align-items:center;justify-content:center;font-size:14px;color:white">Made with Pingendo&nbsp;&nbsp;
-    <img src="https://pingendo.com/site-assets/Pingendo_logo_big.png" class="d-block" alt="Pingendo logo" height="16">
-  </pingendo>
-</body>
 
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+var socket = io();
+socket.on('connect', function() {
+  $('#status').text('Server connected.');
+  socket.emit('getlist');
+});
+socket.on('disconnect', function() {
+  $('#status').text('Server disconnected.');
+});
+socket.on('logfile_list', function(data) {
+  for (var i=0; i<data.length; ++i) {
+      // $('#status').append($('<li>').text('logfile_list: ' + data[i].id + ' : ' + data[i].name + ' : ' + data[i].file));
+      //$('#logfile').append($('<option>').text('logfile_list: ' + data[i].file));
+      $('#logfile').append(new Option(data[i].file, data[i].id));
+  }
+});
+socket.on('log', function(data) {
+  $('#messages').append($('<li>').text('Received message: ' + data));
+});
+function select_log() {
+  alert($('#logfile :selected').text() + ' : ' + $('#logfile :selected').val());
+  socket.emit('select', $('#logfile :selected').val());
+}
+/*
+if ('WebSocket' in window) {
+  //웹소켓 서버는 ws://으로 시작한다.
+  var ws = new WebSocket('ws://127.0.0.1:58080', 'example-echo');
+//ws에 websocket이 연결되었을 때 onopen 을
+  ws.onopen = function () {
+    $('#status').text('connected');
+    //서버로 메세지를 보낸다.
+    ws.send('Hello');
+  };
+//메세지를 받았을때 onmessage 를
+  ws.onmessage = function (evt) {
+    //서버에서 받은 메세지를 표시
+    $('#messages').append($('<li>').text('Received message: ' + evt.data));
+  };
+//연결이 끊어졌을 때 onclose 를
+  ws.onclose = function () {
+    $('#status').text('connection is closed');
+  };
+}
+else
+  $('#status').text('WebSocket not supported.');
+  */
+</script>
+
+<form>
+Status: <ul id="status"></ul><br /><br />
+Select: <select id="logfile"></select>&nbsp;<input type="button" onclick="select_log()" value="View Log" /><br /><br />
+Messages: <ul id="messages"></ul>
+</form>
+
+</body>
 </html>
