@@ -46,12 +46,14 @@ io.on('connection', function (socket) {
   socket.on('select', function(data) {
     console.log('select : ' + data);
 
+    // 이전 로깅 중지
     try {
       tail.unwatch();
     } catch (error) {
 
     }
 
+    // 처리할 로그파일 선택
     var index = data;
 
     for (var i=0; i<LOG_FILE.length; i++) {
@@ -79,13 +81,3 @@ var options = { logger: console, fromBeginning: false, follow: true, useWatchFil
 // 위 옵션을 100 미만으로 설정하는 경우  tail 기능이 제대로 작동하지 않을 우려가 있다.
 
 Tail = require('tail').Tail;
-
-/*
-tail = new Tail(fileToTail, options);
-tail.on("line", function (data) {
-    console.log(data);
-});
-tail.on("error", function (error) {
-    console.log('ERROR: ', error);
-});
-*/
