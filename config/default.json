@@ -14,5 +14,17 @@
 			"name" : "second log file",
 			"file" : "D:\\temp\\2.log"
 		}
+	],
+	"log_dir" : [
+		{
+			"id" : 100,
+			"name" : "Game server log folder",
+			"dir" : "D:\\gameserver"
+		},
+		{
+			"id" : 200,
+			"name" : "DB server log folder",
+			"dir" : "D:\\dbserver"
+		}
 	]
 }
