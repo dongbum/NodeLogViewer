@@ -19,12 +19,12 @@
 		{
 			"id" : 100,
 			"name" : "Game server log folder",
-			"dir" : "D:\\gameserver"
+			"dir" : "D:\\temp\\gameserver"
 		},
 		{
 			"id" : 200,
 			"name" : "DB server log folder",
-			"dir" : "D:\\dbserver"
+			"dir" : "D:\\temp\\dbserver"
 		}
 	]
 }

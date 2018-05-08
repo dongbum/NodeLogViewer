@@ -8,9 +8,22 @@ var fs = require('fs');
 const SERVER_PORT = config.get('server.port');
 const REFRESH_INTERVAL = config.get('server.refresh_interval');
 const LOG_FILE = config.get('log');
+const LOG_DIR = config.get('log_dir');
 
 for (var i=0; i<LOG_FILE.length; i++) {
   console.log(LOG_FILE[i].name + " : " + LOG_FILE[i].file);
+}
+
+for (var i=0; i<LOG_DIR.length; i++) {
+  console.log(LOG_DIR[i].name + " : " + LOG_DIR[i].dir);
+
+  var logfiles = fs.readdirSync(LOG_DIR[i].dir);
+  for (var j in logfiles) {
+    var obj = {"id":LOG_DIR[i].id + "-" + logfiles[j], "file":LOG_DIR[i].dir + "\\" + logfiles[j]};
+    LOG_FILE.push(obj);
+
+    console.log(obj);
+  }
 }
 
 require('events').EventEmitter.prototype._maxListeners = 100;
