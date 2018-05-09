@@ -3,39 +3,11 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http); // https://blog.naver.com/azure0777/220619415390
-var fs = require('fs');
+var loadfilelist_module = require('./loadfilelist.js');
 
 const SERVER_PORT = config.get('server.port');
 const REFRESH_INTERVAL = config.get('server.refresh_interval');
-const LOG_FILE = config.get('log');
-const LOG_DIR = config.get('log_dir');
-
-for (var i=0; i<LOG_FILE.length; i++) {
-  console.log(LOG_FILE[i].name + " : " + LOG_FILE[i].file);
-}
-
-for (var i=0; i<LOG_DIR.length; i++) {
-  console.log(LOG_DIR[i].name + " : " + LOG_DIR[i].dir);
-
-  var filters = LOG_DIR[i].filter.split('|'); // 로그 파일 필터
-
-  var logfiles = fs.readdirSync(LOG_DIR[i].dir);
-  for (var j in logfiles) {
-    var logfile_name = logfiles[j];
-
-    for (var k in filters) { // 로그 파일 필터와 비교하여 맞는 확장자만 처리한다.
-      if ('*' == filters[k]) {
-        var obj = {"id":LOG_DIR[i].id + "-" + logfile_name, "file":LOG_DIR[i].dir + "\\" + logfile_name};
-        LOG_FILE.push(obj);
-        console.log(obj);
-      } else if (logfile_name.split('.').pop() == filters[k]) {
-        var obj = {"id":LOG_DIR[i].id + "-" + logfile_name, "file":LOG_DIR[i].dir + "\\" + logfile_name};
-        LOG_FILE.push(obj);
-        console.log(obj);
-      }
-    }
-  }
-}
+const LOG_FILE = loadfilelist_module.load(config);
 
 require('events').EventEmitter.prototype._maxListeners = 100;
 
