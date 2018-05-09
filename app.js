@@ -64,7 +64,7 @@ io.on('connection', function (socket) {
     tail = new Tail(fileToTail, options);
 
     tail.on("line", function (data) {
-        console.log(data);
+        // console.log(data);
         io.emit('log', data);
     });
 

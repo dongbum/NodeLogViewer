@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <title>WebSocket Test</title>
+  <title>NodeLogViewer</title>
 </head>
 <body>
 
@@ -24,10 +24,11 @@ socket.on('logfile_list', function(data) {
   }
 });
 socket.on('log', function(data) {
-  $('#messages').append($('<li>').text('Received message: ' + data));
+  $('#messages').append($('<li>').text('Log: ' + data));
 });
 function select_log() {
   alert($('#logfile :selected').text() + ' : ' + $('#logfile :selected').val());
+  $('#messages').empty();
   socket.emit('select', $('#logfile :selected').val());
 }
 /*
